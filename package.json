@@ -1,0 +1,63 @@
+{
+
+   "name": "custom_rest_proxy",
+   "version": "1.0.0",
+   "description": "Custom REST Proxy",
+   "main": "proxy.js",
+   "scripts": {
+      "test": "echo \"Error: no test specified\" && exit 1"
+   },
+
+
+   "dependencies": {
+      "ws": "^8.9.0",
+      "express": "^4.17.1",
+      "websocket": "^1.0.34"
+    },
+
+   "custom_rest_proxy" : {
+       "listen" : {
+         "port" : 3000
+       },
+       "proxy" : {
+          "host" : "localhost",
+          "port" : 8080
+       },
+       
+       "default": {
+         "statusCode": 200,
+         "headers": {
+           "content-type": "application/json"
+         },
+         "content ": "\"not connected\""         
+       }, 
+       "logging" : {
+          "console" : true,
+          "online" :  {
+             "lines" : 100,
+             "ws" : true,
+             "text" : "/log",
+             "json" : "/log.json"
+          }
+       },
+       "websocket" : {
+         "maxClients" : 100,
+         "origins" : false
+       },
+       "translate" : {
+
+             "GET" : {
+                "/recall-1" : {
+                    "POST":{
+                        "uri" : "/recall",
+                         "headers": { "content-type" : "application/json" },
+                         "content"     : "{\"Preset\":\"Preset-${preset}\"}",
+                         "urlParseContent" : true 
+                        }
+                    }
+             }
+       }
+
+       
+   }
+}
